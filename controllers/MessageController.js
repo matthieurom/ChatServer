@@ -19,7 +19,7 @@ function messageController(app) {
     // Récupérer les messages d'un chat
     .get("/messages/:id", authorizeMiddleware, async (req, res) => {
       let query = Message.where({ chat: req.params.id });
-      const message = await query.findOne();
+      const message = await query.find();
       if (!message) {
         return res.status(404).send("Bad Request, message undefined");
       }

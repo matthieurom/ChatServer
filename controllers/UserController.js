@@ -30,13 +30,19 @@ function userController(app) {
         }
         return res.json(response);
       } catch {
-        return res.status(500).send("ERROR 500");
+        return res.status(500).send("ERROR 500!!");
       }
     })
 
     // Récupérer le user courrant
-    .get("/user/current", authorizeMiddleware, async (req, res) => {
-      return res.json(req.user);
+    .get("/currentuser", authorizeMiddleware, async (req, res) => {
+      try {
+        console.log("user is:", req.user);
+        res.json(req.user);
+      } catch (e) {
+        console.log(e);
+        return res.status(500).send("ERROR 500 ?");
+      }
     })
 
     //Générer un token depuis un utilisateur connu de la db
@@ -102,7 +108,7 @@ function userController(app) {
 
       console.log(chats);
 
-      res.send();
+      res.json(chats);
     });
 }
 
