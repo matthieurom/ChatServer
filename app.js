@@ -28,6 +28,7 @@ app.use(function(req, res, next) {
     "Access-Control-Allow-Headers",
     "X-Requested-With,content-type,Authorization"
   );
+  // res.header("Access-Control-Allow-Credentials", true);
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Methods",
@@ -36,4 +37,13 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.listen(8080);
+var server = app.listen(8080);
+var io = require("socket.io")(server);
+
+io.on("connection", socket => {
+  console.log(socket.id);
+
+  socket.on("SEND_MESSAGE", function(data) {
+    io.emit("RECEIVE_MESSAGE", data);
+  });
+});

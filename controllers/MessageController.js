@@ -16,7 +16,7 @@ function messageController(app) {
       return res.json(newMessage);
     })
 
-    // Récupérer les messages d'un chat
+    // Récupérer les messages d'un chat 
     .get("/messages/:id", authorizeMiddleware, async (req, res) => {
       let query = Message.where({ chat: req.params.id });
       const message = await query.find();

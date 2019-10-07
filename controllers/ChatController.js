@@ -7,7 +7,7 @@ function chatController(app) {
       newChat = new Chat({
         name: req.body.name,
         description: req.body.description,
-        category: req.body.description
+        category: req.body.category
       });
       newChat.save();
       return res.json(newChat);
