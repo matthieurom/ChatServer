@@ -63,18 +63,14 @@ function userController(app) {
 
     // Récupérer les derniers chat consultés par le user
     .get("/user/current/lastchat", authorizeMiddleware, async (req, res) => {
-      //   var query = Message.where({ user: req.userId });
-      //   const messages = await query.find();
-      //   console.log("messages is : ", messages);
-
       const chats = await Chat.aggregate([
         {
           $lookup: {
             from: "messages",
-            let: { zeub: "$_id" },
+            let: { iD: "$_id" },
             pipeline: [
               {
-                $match: { $expr: { $eq: ["$chat", "$$zeub"] } }
+                $match: { $expr: { $eq: ["$chat", "$$iD"] } }
               },
               {
                 $limit: 1
