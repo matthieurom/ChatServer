@@ -98,7 +98,7 @@ function userController(app) {
           }
         },
         {
-          $limit: 10
+          $limit: 6
         }
       ]);
 
