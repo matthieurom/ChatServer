@@ -6,7 +6,7 @@ function messageController(app, io) {
   app
     // Créer un message
     .post("/messages", authorizeMiddleware, (req, res) => {
-      newMessage = new Message({
+      const newMessage = new Message({
         text: req.body.text,
         date: Date.now(),
         chat: req.body.chatId,

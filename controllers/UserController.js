@@ -10,7 +10,7 @@ function userController(app) {
   app
     // Créer un user
     .post("/register", (req, res) => {
-      newUser = new User({
+      const newUser = new User({
         login: req.body.login,
         password: md5(req.body.password),
         firstname: req.body.firstname,

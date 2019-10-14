@@ -4,7 +4,7 @@ function chatController(app) {
   app
     // Créer un chat
     .post("/chat", (req, res) => {
-      newChat = new Chat({
+      const newChat = new Chat({
         name: req.body.name,
         description: req.body.description,
         category: req.body.category
