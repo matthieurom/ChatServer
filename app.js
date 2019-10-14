@@ -1,4 +1,5 @@
 var express = require("express");
+var http = require("http");
 var app = express();
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -7,6 +8,9 @@ var mongoose = require("mongoose");
 var chatController = require("./controllers/ChatController").default;
 var userController = require("./controllers/UserController").default;
 var messageController = require("./controllers/MessageController").default;
+
+var server = http.createServer(app);
+var io = require("socket.io")(server);
 
 mongoose.connect("mongodb://localhost/Chat", { useNewUrlParser: true });
 var db = mongoose.connection;
@@ -18,7 +22,7 @@ db.once("open", () => {
   // Initialise controllers
   chatController(app);
   userController(app);
-  messageController(app);
+  messageController(app, io);
 });
 
 //
@@ -37,13 +41,4 @@ app.use(function(req, res, next) {
   next();
 });
 
-var server = app.listen(8080);
-var io = require("socket.io")(server);
-
-io.on("connection", socket => {
-  console.log(socket.id);
-
-  socket.on("SEND_MESSAGE", function(data) {
-    io.emit("RECEIVE_MESSAGE", data);
-  });
-});
+server.listen(8080);

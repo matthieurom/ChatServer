@@ -2,7 +2,7 @@ var Message = require("../models/MessageModel").default;
 var authorizeMiddleware = require("../services/authService")
   .authorizeMiddleware;
 
-function messageController(app) {
+function messageController(app, io) {
   app
     // Créer un message
     .post("/messages", authorizeMiddleware, (req, res) => {
@@ -12,11 +12,12 @@ function messageController(app) {
         chat: req.body.chatId,
         user: req.userId
       });
+      io.emit("RECEIVE_MESSAGE", newMessage);
       newMessage.save();
       return res.json(newMessage);
     })
 
-    // Récupérer les messages d'un chat 
+    // Récupérer les messages d'un chat
     .get("/messages/:id", authorizeMiddleware, async (req, res) => {
       let query = Message.where({ chat: req.params.id });
       const message = await query.find();
@@ -25,6 +26,7 @@ function messageController(app) {
       }
       return res.json(message);
     });
+
 }
 
 exports.default = messageController;

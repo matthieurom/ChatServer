@@ -40,7 +40,7 @@ function userController(app) {
         console.log("user is:", req.user);
         res.json(req.user);
       } catch (e) {
-        console.log(e);
+        console.log("ERROR IN /currentuser", e);
         return res.status(500).send("ERROR 500 ?");
       }
     })
