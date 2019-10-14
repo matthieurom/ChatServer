@@ -19,7 +19,7 @@ async function authorize(req) {
       throw new Error();
     }
     //Si on catch un erreur on retourne false
-  } catch {
+  } catch (e) {
     return false;
   }
   //Everythink works

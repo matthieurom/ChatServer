@@ -29,7 +29,7 @@ function userController(app) {
           throw new Error();
         }
         return res.json(response);
-      } catch {
+      } catch (e) {
         return res.status(500).send("ERROR 500!!");
       }
     })
