@@ -12,6 +12,13 @@ function messageController(app, io) {
         chat: req.body.chatId,
         user: req.userId
       });
+      io.on("connection", socket => {
+        console.log(socket.id);
+
+        socket.on("SEND_MESSAGE", function(newMessage) {
+          io.emit("RECEIVE_MESSAGE", newMessage);
+        });
+      });
       io.emit("RECEIVE_MESSAGE", newMessage);
       newMessage.save();
       return res.json(newMessage);
@@ -26,7 +33,6 @@ function messageController(app, io) {
       }
       return res.json(message);
     });
-
 }
 
 exports.default = messageController;
